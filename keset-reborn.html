@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Medical Calculators - Unified Interface</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .nav-tabs .nav-link {
+            font-weight: 600;
+        }
+
+        .tab-content {
+            padding-top: 20px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .score-box {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .interpretasi {
+            font-size: 1.1rem;
+        }
+
+        .input-box {
+            background: #d9ecff;
+        }
+
+        .fencl-box {
+            background: #f8c39a;
+        }
+
+        .simplified-box {
+            background: #b7d99c;
+        }
+
+        .value {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .badge-sepsis {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-cardio {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        #pfRatio, #sofaScore, #qsofaScore {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid my-4">
+
+    <h2 class="text-center mb-4">Medical Calculators - All Features</h2>
+
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs" id="calculatorTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="nutrition-tab" data-bs-toggle="tab" data-bs-target="#nutrition" type="button" role="tab">Kebutuhan Nutrisi Normal</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="infus-tab" data-bs-toggle="tab" data-bs-target="#infus" type="button" role="tab">Kalkulator Infus</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sofa-tab" data-bs-toggle="tab" data-bs-target="#sofa" type="button" role="tab">SOFA & q-SOFA</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="clinic-nutrition-tab" data-bs-toggle="tab" data-bs-target="#clinic-nutrition" type="button" role="tab">Nutrisi Klinis</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="agd-tab" data-bs-toggle="tab" data-bs-target="#agd" type="button" role="tab">AGD Calculator</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="cpis-tab" data-bs-toggle="tab" data-bs-target="#cpis" type="button" role="tab">CPIS Calculator</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="clearance-tab" data-bs-toggle="tab" data-bs-target="#clearance" type="button" role="tab">Creatinine Clearance</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="dosis-tab" data-bs-toggle="tab" data-bs-target="#dosis" type="button" role="tab">Dosis Obat ICU</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="calculatorTabsContent">
+
+        <!-- Kebutuhan Nutrisi Normal Tab -->
+        <div class="tab-pane fade show active" id="nutrition" role="tabpanel">
+            <h3 class="mb-4">Kebutuhan Nutrisi Normal</h3>
+
+            <!-- INPUT -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label>Tinggi Badan (cm)</label>
+                            <input type="number" id="tb" class="form-control" value="155">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Jenis Kelamin</label>
+                            <select id="gender" class="form-select">
+                                <option value="male">Laki-laki</option>
+                                <option value="female">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" id="btnHitung">
+                                Hitung Kebutuhan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HASIL -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5>Hasil Perhitungan</h5>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>BB Ideal (kg)</th>
+                                <td id="bbIdeal">-</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Volume</th>
+                                <td id="volume">-</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Kalori (kkal)</th>
+                                <td id="kalori">-</td>
+                                <td>25 kkal x BB</td>
+                            </tr>
+                            <tr>
+                                <th>Karbohidrat (kkal)</th>
+                                <td id="karbo">-</td>
+                                <td>60% x Kalori - Protein</td>
+                            </tr>
+                            <tr>
+                                <th>Protein (kkal)</th>
+                                <td id="protein">-</td>
+                                <td>1-2 gr x BB x 3.93</td>
+                            </tr>
+                            <tr>
+                                <th>Lipid (kkal)</th>
+                                <td id="lipid">-</td>
+                                <td>60% x Kalori - Protein</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- DATASHEET -->
+            <div class="card">
+                <div class="card-body">
+                    <h5>Datasheet Nutrisi</h5>
+                    <table class="table table-striped table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Volume (cc)</th>
+                                <th>Karbo (kkal)</th>
+                                <th>Protein (kkal)</th>
+                                <th>Lipid (kkal)</th>
+                                <th>Total (kkal)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Kabivent</td>
+                                <td>1440</td>
+                                <td>388</td>
+                                <td>134</td>
+                                <td>490</td>
+                                <td>1012</td>
+                            </tr>
+                            <tr>
+                                <td>Nutriflex</td>
+                                <td>625</td>
+                                <td>360</td>
+                                <td>140</td>
+                                <td>240</td>
+                                <td>740</td>
+                            </tr>
+                            <tr>
+                                <td>Clinimix</td>
+                                <td>1000</td>
+                                <td>300</td>
+                                <td>110</td>
+                                <td>0</td>
+                                <td>410</td>
+                            </tr>
+                            <tr>
+                                <td>Aminofluid</td>
+                                <td>500</td>
+                                <td>150</td>
+                                <td>59</td>
+                                <td>0</td>
+                                <td>209</td>
+                            </tr>
+                            <tr>
+                                <td>Lipid</td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>200</td>
+                                <td>200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kalkulator Infus Tab -->
+        <div class="tab-pane fade" id="infus" role="tabpanel">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Kalkulator Dosis Infus (mcg/kg/menit → cc/jam)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Berat Badan -->
+                        <div class="col-md-4">
+                            <label class="form-label">Berat Badan (kg)</label>
+                            <input type="number" id="bb" class="form-control" value="50">
+                        </div>
+                        <!-- Pilih Obat -->
+                        <div class="col-md-4">
+                            <label class="form-label">Obat</label>
+                            <select id="obat" class="form-select">
+                                <option value="200">Noradrenalin 5 mg / 25 cc</option>
+                                <option value="1000">NTG 50 mg / 50 cc</option>
+                                <option value="5000">Dobutamin 250 mg / 50 cc</option>
+                                <option value="10000">Dobutamin 500 mg / 50 cc</option>
+                                <option value="4000">Dopamin 200 mg / 50 cc</option>
+                                <option value="400">Milrinon 20 mg / 50 cc</option>
+                            </select>
+                        </div>
+                        <!-- Konsentrasi -->
+                        <div class="col-md-4">
+                            <label class="form-label">Konsentrasi</label>
+                            <input type="text" id="konsentrasi" class="form-control" readonly>
+                            <small class="text-muted">mcg / cc</small>
+                        </div>
+                        <!-- Dosis -->
+                        <div class="col-md-6">
+                            <label class="form-label">Dosis (mcg/kg/menit)</label>
+                            <input type="number" step="0.01" id="dosis" class="form-control" value="0.1">
+                        </div>
+                        <!-- Hasil -->
+                        <div class="col-md-6">
+                            <label class="form-label">Kecepatan Infus</label>
+                            <input type="text" id="hasil" class="form-control fw-bold text-primary" readonly>
+                            <small class="text-muted">cc / jam</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    Prototype ICU Calculator – Dynamic Infusion Rate
+                </div>
+            </div>
+        </div>
+
+        <!-- SOFA & q-SOFA Tab -->
+        <div class="tab-pane fade" id="sofa" role="tabpanel">
+            <h3 class="text-center mb-4">SOFA Score & q-SOFA Calculator</h3>
+            <div class="row">
+                <!-- SOFA -->
+                <div class="col-md-8">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th colspan="4" class="text-center">SOFA Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PaO₂</td>
+                                <td><input type="number" id="po2" class="form-control"></td>
+                                <td>FiO₂ (%)</td>
+                                <td><input type="number" id="fio2" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>Ventilasi Mekanik</td>
+                                <td colspan="3">
+                                    <select id="vent" class="form-select">
+                                        <option value="N">Tidak</option>
+                                        <option value="Y">Ya</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Platelet</td>
+                                <td colspan="3">
+                                    <select id="platelet" class="form-select">
+                                        <option value="0">≥150</option>
+                                        <option value="1">100–149</option>
+                                        <option value="2">50–99</option>
+                                        <option value="3">20–49</option>
+                                        <option value="4">&lt;20</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>GCS</td>
+                                <td colspan="3">
+                                    <select id="gcs" class="form-select">
+                                        <option value="0">15</option>
+                                        <option value="1">13–14</option>
+                                        <option value="2">10–12</option>
+                                        <option value="3">6–9</option>
+                                        <option value="4">&lt;6</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bilirubin</td>
+                                <td colspan="3">
+                                    <select id="bilirubin" class="form-select">
+                                        <option value="0">&lt;1,2</option>
+                                        <option value="1">1,2–1,9</option>
+                                        <option value="2">2–5,9</option>
+                                        <option value="3">6–11,9</option>
+                                        <option value="4">≥12</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MAP / Vasopressor</td>
+                                <td colspan="3">
+                                    <select id="map" class="form-select">
+                                        <option value="0">MAP ≥70</option>
+                                        <option value="1">MAP &lt;70</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Kreatinin</td>
+                                <td colspan="3">
+                                    <select id="creatinine" class="form-select">
+                                        <option value="0">&lt;1,2</option>
+                                        <option value="1">1,2–1,9</option>
+                                        <option value="2">2–3,4</option>
+                                        <option value="3">3,5–4,9</option>
+                                        <option value="4">≥5</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Urine Output</td>
+                                <td colspan="3">
+                                    <select id="urine" class="form-select">
+                                        <option value="0">≥500</option>
+                                        <option value="1">200–499</option>
+                                        <option value="2">&lt;200</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- q-SOFA -->
+                <div class="col-md-4">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th colspan="2" class="text-center">q-SOFA Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RR ≥ 22</td>
+                                <td>
+                                    <input type="checkbox" class="qsofa" id="q_rr">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SBP ≤ 100</td>
+                                <td>
+                                    <input type="checkbox" class="qsofa" id="q_sbp">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>GCS < 15</td>
+                                <td>
+                                    <input type="checkbox" class="qsofa" id="q_gcs">
+                                </td>
+                            </tr>
+                            <tr class="table-success">
+                                <td>q-SOFA Score</td>
+                                <td id="qsofaScore">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info">
+                        <strong>Interpretasi:</strong><br>
+                        q-SOFA ≥2 → Risiko mortalitas & LOS ICU meningkat
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5>P/F Ratio</h5>
+                            <div id="pfRatio" class="display-4">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5>SOFA Score</h5>
+                            <div id="sofaScore" class="display-4">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5>q-SOFA Score</h5>
+                            <div id="qsofaScore-display" class="display-4">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrisi Klinis Tab -->
+        <div class="tab-pane fade" id="clinic-nutrition" role="tabpanel">
+            <nav class="navbar navbar-dark bg-primary px-4 mb-4">
+                <span class="navbar-brand mb-0 h6">
+                    Sistem Perhitungan Nutrisi Klinis
+                </span>
+            </nav>
+
+            <div class="row g-4">
+                <!-- PANEL INPUT -->
+                <div class="col-lg-4">
+                    <div class="card card-clinic">
+                        <div class="card-header">
+                            Data Pasien
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Tinggi Badan (cm)</label>
+                                <input type="number" id="tb-clinic" class="form-control form-control-clinic" value="155">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select id="gender-clinic" class="form-select form-control-clinic">
+                                    <option value="male">Laki-laki</option>
+                                    <option value="female">Perempuan</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-clinic" id="btnHitung-clinic">
+                                Hitung Kebutuhan Nutrisi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL OUTPUT -->
+                <div class="col-lg-8">
+                    <div class="card card-clinic">
+                        <div class="card-header">
+                            Hasil Perhitungan Kebutuhan Nutrisi
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded">
+                                        <div class="text-muted small">BB Ideal</div>
+                                        <div class="h4 mb-0" id="bbIdeal-clinic">-</div>
+                                        <div class="text-muted small">kg</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 border rounded">
+                                        <div class="text-muted small">Volume</div>
+                                        <div class="h4 mb-0" id="volume-clinic">-</div>
+                                        <div class="text-muted small">cc/hari</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 border rounded">
+                                        <div class="text-muted small">Kalori</div>
+                                        <div class="h4 mb-0" id="kalori-clinic">-</div>
+                                        <div class="text-muted small">kkal</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 border rounded">
+                                        <div class="text-muted small">Protein</div>
+                                        <div class="h4 mb-0" id="protein-clinic">-</div>
+                                        <div class="text-muted small">kkal</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-3 border rounded">
+                                        <div class="text-muted small">Karbohidrat</div>
+                                        <div class="h4 mb-0" id="karbo-clinic">-</div>
+                                        <div class="text-muted small">kkal</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AGD Calculator Tab -->
+        <div class="tab-pane fade" id="agd" role="tabpanel">
+            <h4 class="text-center fw-bold mb-4">AGD – Dynamic Fencl Calculator</h4>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="card input-box p-3">
+                        <h6 class="fw-bold">Input</h6>
+                        <label>pH</label>
+                        <input type="number" step="0.01" id="ph" class="form-control mb-2" value="7.45">
+                        <label>SBE</label>
+                        <input type="number" step="0.1" id="sbe" class="form-control mb-2" value="-12.4">
+                        <label>Na</label>
+                        <input type="number" id="na" class="form-control mb-2" value="138">
+                        <label>Cl</label>
+                        <input type="number" id="cl" class="form-control mb-2" value="106">
+                        <label>Albumin</label>
+                        <input type="number" step="0.01" id="alb" class="form-control mb-2" value="3.73">
+                        <label>PaO2</label>
+                        <input type="number" id="po2" class="form-control mb-2" value="132">
+                        <label>Lac</label>
+                        <input type="number" id="lac" class="form-control mb-2" value="0">
+                        <label>PCO2</label>
+                        <input type="number" id="pco2" class="form-control mb-2" value="41.1">
+                        <label>FiO2 (%)</label>
+                        <input type="number" id="fio2" class="form-control" value="80">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card fencl-box p-3">
+                        <h6 class="fw-bold">Simplified Fencl</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Water Effect</span><span id="water" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Chloride Effect</span><span id="chloride" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Albumin Effect</span><span id="alb_simple" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>AaDO2</span><span id="aa-do2" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Unmeasured Anions</span><span id="ua_simple" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card fencl-box p-3">
+                        <h6 class="fw-bold">Fencl</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Na-Cl</span><span id="nacl" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Albumin Effect</span><span id="alb_fencl" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Unmeasured Anions</span><span id="ua_fencl" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card simplified-box p-3">
+                        <h6 class="fw-bold">Støru 2016</h6>
+                        <div class="d-flex justify-content-between">
+                            <span>Na-Cl</span><span id="nacl_storu" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Albumin Effect</span><span id="alb_storu" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Lactate</span><span id="lactate_storu" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>OI</span><span id="oi_storu" class="value"></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>P/F</span><span id="pf" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CPIS Calculator Tab -->
+        <div class="tab-pane fade" id="cpis" role="tabpanel">
+            <div class="card shadow">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>CPIS (Clinical Pneumonia Infection Score)</h4>
+                    <small>Ventilator Associated Pneumonia Assessment</small>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered align-middle">
+                        <thead class="text-center">
+                            <tr>
+                                <th>Parameter</th>
+                                <th>0</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>Skor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sekresi Trakeal</td>
+                                <td>Jarang</td>
+                                <td>Banyak</td>
+                                <td>Banyak + purulent</td>
+                                <td>
+                                    <select class="form-select score" data-score>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Infiltrat Rontgen Thorax</td>
+                                <td>Tidak ada infiltrat</td>
+                                <td>Terdifusi</td>
+                                <td>Terlokalisir</td>
+                                <td>
+                                    <select class="form-select score" data-score>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Suhu (°C)</td>
+                                <td>36,5 – 38,4</td>
+                                <td>38,5 – 38,9</td>
+                                <td>&le;36 atau &ge;39</td>
+                                <td>
+                                    <select class="form-select score" data-score>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Angka Leukosit</td>
+                                <td>4.000 – 11.000</td>
+                                <td>&lt;4.000 atau &gt;11.000</td>
+                                <td>&lt;4.000 atau &gt;11.000 + band &ge;500</td>
+                                <td>
+                                    <select class="form-select score" data-score>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Oksigenasi (PaO2/FiO2)</td>
+                                <td>&gt;240 atau ARDS</td>
+                                <td>&le;240 dan tidak ARDS</td>
+                                <td></td>
+                                <td>
+                                    <select class="form-select score" data-score>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Perkembangan (pada hari ke 3)</td>
+                                <td>Tidak</td>
+                                <td></td>
+                                <td>Ya</td>
+                                <td>
+                                    <select class="form-select score" data-score>
+                                        <option value="0">0</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5>Total CPIS Score</h5>
+                                    <div class="score-box text-primary" id="totalScore">-</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Interpretasi</h5>
+                                    <div class="interpretasi" id="interpretasi">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creatinine Clearance Tab -->
+        <div class="tab-pane fade" id="clearance" role="tabpanel">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Creatinine Clearance & Dosis Meropenem</h5>
+                    <small>Rumus Cockcroft–Gault</small>
+                </div>
+                <div class="card-body">
+                    <form id="calcForm">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Berat Badan (kg)</label>
+                                <input type="number" class="form-control" id="bb" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Tinggi Badan (cm)</label>
+                                <input type="number" class="form-control" id="tb" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Usia (tahun)</label>
+                                <input type="number" class="form-control" id="usia" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Serum Kreatinin (mg/dL)</label>
+                                <input type="number" step="0.01" class="form-control" id="scr" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select class="form-select" id="gender">
+                                    <option value="pria">Pria</option>
+                                    <option value="wanita">Wanita</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                Hitung
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <div id="result" class="d-none">
+                        <h6 class="text-muted">Hasil Perhitungan</h6>
+                        <table class="table table-bordered mt-3">
+                            <tr>
+                                <th>Lean Body Weight (kg)</th>
+                                <td id="lbw"></td>
+                            </tr>
+                            <tr>
+                                <th>Creatinine Clearance (mL/menit)</th>
+                                <td id="crcl"></td>
+                            </tr>
+                            <tr>
+                                <th>Rekomendasi Dosis Meropenem</th>
+                                <td id="dose"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dosis Obat ICU Tab -->
+        <div class="tab-pane fade" id="dosis" role="tabpanel">
+            <h3 class="mb-4">Prototype Aplikasi Dosis Obat ICU</h3>
+
+            <!-- BB INPUT -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <label class="form-label fw-semibold">Berat Badan (kg)</label>
+                    <input type="number" id="bb" class="form-control" value="50">
+                </div>
+            </div>
+
+            <!-- NAV TABS -->
+            <ul class="nav nav-tabs mb-3" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#vaso">Vasopressin</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#nicardipine">Nicardipine</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#dex">Dexmedetomidine</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#amio">Amiodarone</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#diltiazem">Diltiazem</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- VASOPRESSIN -->
+                <div class="tab-pane fade show active" id="vaso">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="section-title">Dosis Vasopressin</div>
+                            <span class="badge badge-sepsis mb-2">Syok Sepsis</span>
+                            <span class="badge badge-cardio mb-2">Post Syok Kardiotomi</span>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-bordered table-sm text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>Dosis (U/menit)</th>
+                                            <th>Kecepatan Alir (ml/jam)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="badge-sepsis">0,01</td><td class="badge-sepsis">1,5</td></tr>
+                                        <tr><td class="badge-sepsis">0,015</td><td class="badge-sepsis">2,25</td></tr>
+                                        <tr><td class="badge-sepsis">0,02</td><td class="badge-sepsis">3</td></tr>
+                                        <tr><td class="badge-sepsis">0,025</td><td class="badge-sepsis">3,75</td></tr>
+                                        <tr><td class="badge-sepsis">0,03</td><td class="badge-sepsis">4,5</td></tr>
+                                        <tr><td class="badge-cardio">0,035</td><td class="badge-cardio">5,25</td></tr>
+                                        <tr><td class="badge-cardio">0,04</td><td class="badge-cardio">6</td></tr>
+                                        <tr><td class="badge-cardio">0,045</td><td class="badge-cardio">6,75</td></tr>
+                                        <tr><td class="badge-cardio">0,05</td><td class="badge-cardio">7,5</td></tr>
+                                        <tr><td class="badge-cardio">0,055</td><td class="badge-cardio">8,75</td></tr>
+                                        <tr><td class="badge-cardio"><b>0,06</b></td><td class="badge-cardio"><b>9</b></td></tr>
+                                        <tr><td class="badge-cardio">0,065</td><td class="badge-cardio">9,75</td></tr>
+                                        <tr><td class="badge-cardio">0,07</td><td class="badge-cardio">10,5</td></tr>
+                                        <tr><td class="badge-cardio">0,075</td><td class="badge-cardio">11,25</td></tr>
+                                        <tr><td class="badge-cardio">0,08</td><td class="badge-cardio">12</td></tr>
+                                        <tr><td class="badge-cardio">0,085</td><td class="badge-cardio">12,75</td></tr>
+                                        <tr><td class="badge-cardio">0,09</td><td class="badge-cardio">13,5</td></tr>
+                                        <tr><td class="badge-cardio">0,095</td><td class="badge-cardio">14,25</td></tr>
+                                        <tr><td class="badge-cardio">0,1</td><td class="badge-cardio">15</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NICARDIPINE -->
+                <div class="tab-pane fade" id="nicardipine">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="section-title">Dosis Nicardipine</div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label>Sediaan (mg)</label>
+                                    <input type="number" id="sediaan-mg" class="form-control" value="10">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Sediaan (ml)</label>
+                                    <input type="number" id="sediaan-ml" class="form-control" value="10">
+                                </div>
+                            </div>
+                            <div class="alert alert-info">
+                                Konsentrasi: <span class="sediaan-result">1</span> mg/ml
+                            </div>
+                            <div class="mt-3">
+                                <strong>Dosis Maintenance:</strong> <span id="doseRange">250 – 750 mcg/menit</span><br>
+                                <span id="doseRangeEqual">Sama dengan 15 – 45 mg/jam</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEXMEDETOMIDINE -->
+                <div class="tab-pane fade" id="dex">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="section-title">Dosis Dexmedetomidine</div>
+                            <div class="mt-3">
+                                <strong id="doseRange">5 – 15 mcg/menit</strong><br>
+                                <span id="doseRangeEqual">Sama dengan 0.3 – 0.9 mg/jam</span><br><br>
+                                <strong id="dose-loading">Dosis loading: 25 mcg dalam 10 menit</strong><br>
+                                <span id="dose-loading-equal">Sama dengan 2.5 ml dalam 10 menit</span><br><br>
+                                <strong id="dose-maintenance">Dosis Maintenance: 17.5 mcg/jam</strong><br>
+                                <span id="dose-maintenance-equal">Sama dengan 1.75 ml/jam</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AMIODARONE -->
+                <div class="tab-pane fade" id="amio">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="section-title">Dosis Amiodarone</div>
+                            <div class="mt-3">
+                                <strong>Loading:</strong> 150 mg dalam 10 menit (3 ml)<br>
+                                <strong>Maintenance:</strong> 1 mg/menit selama 6 jam (36 ml), kemudian 0.5 mg/menit (18 ml/jam)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DILTIAZEM -->
+                <div class="tab-pane fade" id="diltiazem">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="section-title">Dosis Diltiazem</div>
+                            <div class="mt-3">
+                                <strong>Loading:</strong> 0.25 mg/kg dalam 2 menit<br>
+                                <strong>Maintenance:</strong> 5-15 mg/jam
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+// Nutrition Calculator
+$(document).ready(function () {
+    $('#btnHitung').click(function () {
+        let tb = parseFloat($('#tb').val());
+        let gender = $('#gender').val();
+
+        if (isNaN(tb) || tb <= 0) {
+            alert('Tinggi badan tidak valid');
+            return;
+        }
+
+        let bbIdeal = 0;
+        switch (gender) {
+            case 'male':
+                if (tb > 152) {
+                    bbIdeal = (50 + 0.9 * (tb-152));
+                } else {
+                    bbIdeal = 50;
+                }
+                break;
+            case 'female':
+                if (tb > 152) {
+                    bbIdeal = (45.5 + 0.9 * (tb-152));
+                } else {
+                    bbIdeal = 45.5;
+                }
+                break;
+        }
+
+        let volume = bbIdeal > 0 ? parseFloat(bbIdeal) * 30 : 0;
+        let kalori = bbIdeal > 0 ? parseFloat(bbIdeal) * 25 : 0;
+        let protein = bbIdeal * 3.93;
+        let karbo = 0.6 * (kalori - protein);
+        let lipid = 0.4 * (kalori - protein);
+
+        $('#bbIdeal').text(bbIdeal.toFixed(1));
+        $('#volume').text(volume.toFixed(1));
+        $('#kalori').text(kalori.toFixed(1));
+        $('#karbo').text(karbo.toFixed(4));
+        $('#protein').text(protein.toFixed(3));
+        $('#lipid').text(lipid.toFixed(4));
+    });
+
+    // Infusion Calculator
+    function hitung() {
+        let bb = parseFloat($('#bb').val());
+        let dosis = parseFloat($('#dosis').val());
+        let konsentrasi = parseFloat($('#obat').val());
+
+        $('#konsentrasi').val(konsentrasi + ' mcg/cc');
+
+        if (!isNaN(bb) && !isNaN(dosis) && !isNaN(konsentrasi)) {
+            let ccJam = (dosis * bb * 60) / konsentrasi;
+            $('#hasil').val(ccJam.toFixed(2));
+        } else {
+            $('#hasil').val('');
+        }
+    }
+
+    $('#bb, #dosis, #obat').on('input change', hitung);
+    $(document).ready(hitung);
+
+    // Clinical Nutrition Calculator
+    $('#btnHitung-clinic').click(function () {
+        let tb = parseFloat($('#tb-clinic').val());
+        let gender = $('#gender-clinic').val();
+
+        if (isNaN(tb) || tb <= 0) {
+            alert('Tinggi badan tidak valid');
+            return;
+        }
+
+        let bbIdeal = 0;
+        switch (gender) {
+            case 'male':
+                bbIdeal = (50 + 0.9 * (tb - 152));
+                break;
+            case 'female':
+                bbIdeal = (45.5 + 0.9 * (tb - 152));
+                break;
+        }
+
+        let volume = bbIdeal * 30;
+        let kalori = bbIdeal * 25;
+        let protein = bbIdeal * 3.93;
+        let karbo = 0.6 * (kalori - protein);
+
+        $('#bbIdeal-clinic').text(bbIdeal.toFixed(1));
+        $('#volume-clinic').text(volume.toFixed(1));
+        $('#kalori-clinic').text(kalori.toFixed(1));
+        $('#protein-clinic').text(protein.toFixed(3));
+        $('#karbo-clinic').text(karbo.toFixed(4));
+    });
+
+    // AGD Calculator
+    function calculate() {
+        let ph = parseFloat($('#ph').val()) || 0
+        let na = parseFloat($('#na').val()) || 0
+        let cl = parseFloat($('#cl').val()) || 0
+        let alb = parseFloat($('#alb').val()) || 0
+        let sbe = parseFloat($('#sbe').val()) || 0
+        let po2 = parseFloat($('#po2').val()) || 0
+        let pco2 = parseFloat($('#pco2').val()) || 0
+        let fio2 = parseFloat($('#fio2').val()) || 0
+        let lac = parseFloat($('#lac').val()) || 0
+
+        // Simplified Fencl
+        let water = 0.3 * (na - 140)
+        let chloride = 102 - (cl * (140 / na))
+        let albSimple = ((0.148 * ph) - 0.818) * (42 - (alb * 10))
+        let aado2 = (((fio2/100)*713)-po2)-pco2
+        let uaSimple = sbe - (water + albSimple + chloride)
+
+        // Fencl
+        let nacl = (na - cl) - 38
+        let albFencl = 0.25 * (42 - ( alb * 10 ))
+        let uaFencl = sbe - nacl - albFencl
+
+        // Støru 2016
+        let naclStoru = (na - cl) - 35
+        let albStoru = 0.25 * (42 - ( alb * 10 ))
+        let lactateStoru = 1 - lac // assume lactate is 0 for now
+        let oiStoru = sbe - naclStoru - albStoru - lactateStoru
+
+        // Oxygenation
+        let pf = fio2 > 0 ? po2 / (fio2 / 100) : 0
+
+        $('#water').text(water.toFixed(2))
+        $('#nacl').text(nacl.toFixed(2))
+        $('#alb_simple').text(albSimple.toFixed(5))
+        $('#aa-do2').text(aado2.toFixed(2))
+        $('#ua_simple').text(uaSimple.toFixed(5))
+
+        $('#chloride').text(chloride.toFixed(5))
+        $('#alb_fencl').text(albFencl.toFixed(5))
+        $('#ua_fencl').text(uaFencl.toFixed(5))
+
+        $('#nacl_storu').text(naclStoru.toFixed(2))
+        $('#alb_storu').text(albStoru.toFixed(5))
+        $('#lactate_storu').text(lactateStoru.toFixed(1))
+        $('#oi_storu').text(oiStoru.toFixed(3))
+
+        $('#pf').text(pf.toFixed(0))
+    }
+
+    $('input').on('input', calculate)
+    calculate()
+
+    // CPIS Calculator
+    function calculateScore() {
+        let total = 0;
+
+        $('[data-score]').each(function () {
+            total += parseInt($(this).val());
+        });
+
+        $('#totalScore').text(total);
+
+        let interpretation = '';
+        let alertClass = '';
+
+        if (total >= 7) {
+            interpretation = 'Skor ≥7: Probabilitas tinggi Ventilator Associated Pneumonia (VAP).';
+            alertClass = 'alert-danger';
+        } else {
+            interpretation = 'Skor <7: Probabilitas rendah Ventilator Associated Pneumonia (VAP).';
+            alertClass = 'alert-success';
+        }
+
+        $('#interpretasi')
+            .removeClass('alert-secondary alert-danger alert-success')
+            .addClass(alertClass)
+            .text(interpretation);
+    }
+
+    $(document).ready(function () {
+        $('.score').on('change', calculateScore);
+    });
+
+    // Creatinine Clearance Calculator
+    $('#calcForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const bb = parseFloat($('#bb').val());
+        const tb = parseFloat($('#tb').val());
+        const usia = parseInt($('#usia').val());
+        const scr = parseFloat($('#scr').val());
+        const gender = $('#gender').val();
+
+        // Lean Body Weight (sesuai file)
+        let lbw = 0;
+        if (gender === 'pria') {
+            lbw = (1.1 * bb) - 128 * (bb * bb / (tb * tb));
+        } else if (gender === 'wanita') {
+            lbw = (1.1 * bb) - 148 * (bb * bb / (tb * tb));
+        }
+        console.log('LBW:' + lbw);
+        // Cockcroft–Gault
+        let crcl = 0;
+        if (gender === 'pria') {
+            crcl = ((140 - usia) * lbw)/(scr * 72);
+        } else if (gender === 'wanita') {
+            crcl = (((140 - usia) * lbw)/(scr * 72)) * 0.85;
+        }
+        console.log('CrCl:' + crcl);
+        crcl = crcl.toFixed(4);
+
+        // Rekomendasi dosis sederhana (contoh klinis)
+        let dose;
+        if (crcl > 50) {
+            dose = '1 g setiap 8 jam';
+        } else if (crcl > 25 && crcl < 50) {
+            dose = '1 gr per 12 jam';
+        } else if (crcl > 9 && crcl < 25) {
+            dose = '500 mg per 12 jam';
+        } else {
+            dose = '500 mg persetiap 24 jam';
+        }
+
+        $('#lbw').text(lbw.toFixed(2) + ' kg');
+        $('#crcl').text(crcl + ' mL/menit');
+        $('#dose').text(dose);
+
+        $('#result').removeClass('d-none');
+    });
+
+    // ICU Drug Doses Calculator
+    function updateDose() {
+        let bb = $('#bb').val();
+        $('#bbLabel').text(bb);
+        let min = bb * 5;
+        let max = bb * 15;
+
+        let sediaanMg = $('#sediaan-mg').val();
+        let sediaanMl = $('#sediaan-ml').val();
+
+        $('#sediaan-ml').on('change', function() {
+            sediaanMl = $(this).val();
+            console.log(sediaanMl);
+            let concentration = $('#sediaan-mg').val() / sediaanMl;
+            $('.sediaan-result').text(concentration.toFixed(2));
+            updateDose();
+        });
+
+        $('#sediaan-mg').on('change', function() {
+            sediaanMg = $(this).val();
+            console.log(sediaanMg);
+            let concentration = sediaanMg / $('#sediaan-ml').val();
+            $('.sediaan-result').text(concentration.toFixed(2));
+            updateDose();
+        });
+
+        $('#doseRange').text(min + ' – ' + max + ' mcg/menit');
+        $('.doseRangeEqual').html('<b>Sama dengan ' + (min * 60 / 1000).toFixed(2) + ' – ' + (max * 60 / 1000).toFixed(2) + ' mg/jam</b>');
+        $('.dose-loading').text('Dosis loading: ' + (1 * bb).toFixed(2) + ' mcg dalam 10 menit ');
+        $('.dose-loading-equal').html('<b>Sama dengan ' + ((1 * bb) / 4).toFixed(2) + ' ml dalam 10 menit</b>');
+        $('.dose-maintenance').text('Dosis Maintenance: ' + (0.7 * bb).toFixed(2) + ' mcg/jam');
+        $('.dose-maintenance-equal').html('<b>Sama dengan ' + ((0.7 * bb) / 4).toFixed(2) + ' ml/jam</b>');
+    }
+
+    $('#bb').on('input', updateDose);
+    updateDose();
+
+    // SOFA Calculator
+    function calculatePF() {
+        let po2 = parseFloat($('#po2').val());
+        let fio2 = parseFloat($('#fio2').val());
+
+        if (!po2 || !fio2) return null;
+        return Math.round(po2 / (fio2 / 100));
+    }
+
+    function calculateSOFA() {
+        let score = 0;
+
+        score += parseInt($('#platelet').val());
+        score += parseInt($('#gcs').val());
+        score += parseInt($('#bilirubin').val());
+        score += parseInt($('#map').val());
+        score += parseInt($('#creatinine').val());
+
+        let pf = calculatePF();
+        let vent = $('#vent').val();
+
+        if (pf !== null) {
+        if (pf < 100 && vent === 'Y') score += 4;
+        else if (pf < 200 && vent === 'Y') score += 3;
+        else if (pf < 300) score += 2;
+        else if (pf < 400) score += 1;
+        }
+
+        return score;
+    }
+
+    function calculateQSOFA() {
+        let q = 0;
+        $('.qsofa:checked').each(() => q++);
+        return q;
+    }
+
+    $('input, select').on('change keyup', function () {
+        let pf = calculatePF();
+        $('#pfRatio').text(pf ? pf : '-');
+
+        $('#sofaScore').text(calculateSOFA());
+        $('#qsofaScore').text(calculateQSOFA());
+    });
+});
+</script>
+
+</body>
+</html>
