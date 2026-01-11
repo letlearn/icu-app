@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="MedCalc">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <title>All Medical Calculators - Unified Interface</title>
 
     <!-- Bootstrap CSS -->
@@ -14,10 +20,12 @@
     <style>
         body {
             background-color: #f5f7fa;
+            font-size: 16px; /* Base font size for mobile */
         }
 
         .nav-tabs .nav-link {
             font-weight: 600;
+            font-size: 14px; /* Smaller on mobile */
         }
 
         .tab-content {
@@ -27,6 +35,7 @@
         .card {
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem; /* Add margin for spacing */
         }
 
         .score-box {
@@ -74,39 +83,258 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px; /* Smaller base font for very small screens */
+                background-color: #f8f9fa; /* Lighter background */
+            }
+
+            .nav-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                background: white;
+                border-radius: 10px 10px 0 0;
+                box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+                margin-bottom: 0;
+                padding: 0 10px;
+            }
+
+            .nav-tabs .nav-link {
+                white-space: nowrap;
+                font-size: 12px; /* Even smaller for tabs */
+                padding: 0.5rem 0.75rem;
+                border-radius: 8px 8px 0 0;
+                margin-right: 2px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-tabs .nav-link.active {
+                background-color: #007bff;
+                color: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+            .container-fluid {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .card-body {
+                padding: 1rem; /* Reduce padding on mobile */
+            }
+
+            .row.g-3 {
+                --bs-gutter-x: 0.5rem; /* Smaller gutters */
+                --bs-gutter-y: 0.5rem;
+            }
+
+            .form-control, .form-select {
+                font-size: 16px; /* Prevent zoom on iOS */
+                padding: 0.5rem; /* Larger touch targets */
+                border-radius: 8px;
+                border: 1px solid #ddd;
+                transition: border-color 0.3s ease;
+            }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+            .btn {
+                font-size: 16px;
+                padding: 0.5rem 1rem;
+                min-height: 44px; /* Minimum touch target */
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+
+            /* Loading spinner */
+            .loading {
+                position: relative;
+                pointer-events: none;
+            }
+
+            .loading::after {
+                content: "";
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                top: 50%;
+                left: 50%;
+                margin-left: -8px;
+                margin-top: -8px;
+                border: 2px solid #f3f3f3;
+                border-top: 2px solid #007bff;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            .table-responsive {
+                font-size: 14px;
+            }
+
+            .table th, .table td {
+                padding: 0.5rem;
+            }
+
+            .score-box {
+                font-size: 2rem; /* Slightly smaller */
+            }
+
+            .display-4 {
+                font-size: 2rem; /* Adjust display sizes */
+            }
+
+            /* Stack columns vertically on small screens */
+            .col-md-4, .col-md-6, .col-md-8, .col-lg-4, .col-lg-8 {
+                margin-bottom: 1rem;
+            }
+
+            /* Make AGD calculator cards stack */
+            .row.g-3 > .col-md-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            /* SOFA table adjustments */
+            .table.table-bordered {
+                font-size: 12px;
+            }
+
+            /* CPIS table */
+            .table.table-bordered.align-middle {
+                font-size: 12px;
+            }
+
+            /* App-like card styling */
+            .card {
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: none;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            }
+
+            /* Smooth tab transitions */
+            .tab-content {
+                animation: fadeIn 0.3s ease-in-out;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-tabs .nav-link {
+                font-size: 11px;
+                padding: 0.375rem 0.5rem;
+            }
+
+            .h2 {
+                font-size: 1.5rem;
+            }
+
+            .h3 {
+                font-size: 1.25rem;
+            }
+
+            .h4 {
+                font-size: 1.125rem;
+            }
+
+            .h5 {
+                font-size: 1rem;
+            }
+
+            .score-box {
+                font-size: 1.5rem;
+            }
+
+            .display-4 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container-fluid my-4">
 
-    <h2 class="text-center mb-4">Medical Calculators - All Features</h2>
+    <!-- Fixed Header for Mobile App Feel -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom d-lg-none fixed-top shadow-sm">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h6 fw-bold">
+                <i class="bi bi-heart-pulse text-primary me-2"></i>Medical Calculators
+            </span>
+        </div>
+    </nav>
+
+    <!-- Add padding for fixed header -->
+    <div class="d-lg-none" style="height: 56px;"></div>
+
+    <h2 class="text-center mb-4 d-none d-lg-block">Medical Calculators - All Features</h2>
 
     <!-- Tab Navigation -->
     <ul class="nav nav-tabs" id="calculatorTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="nutrition-tab" data-bs-toggle="tab" data-bs-target="#nutrition" type="button" role="tab">Kebutuhan Nutrisi Normal</button>
+            <button class="nav-link active" id="nutrition-tab" data-bs-toggle="tab" data-bs-target="#nutrition" type="button" role="tab">
+                <i class="bi bi-heart me-1"></i>Kebutuhan Nutrisi Normal
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="infus-tab" data-bs-toggle="tab" data-bs-target="#infus" type="button" role="tab">Kalkulator Infus</button>
+            <button class="nav-link" id="infus-tab" data-bs-toggle="tab" data-bs-target="#infus" type="button" role="tab">
+                <i class="bi bi-droplet me-1"></i>Kalkulator Infus
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sofa-tab" data-bs-toggle="tab" data-bs-target="#sofa" type="button" role="tab">SOFA & q-SOFA</button>
+            <button class="nav-link" id="sofa-tab" data-bs-toggle="tab" data-bs-target="#sofa" type="button" role="tab">
+                <i class="bi bi-clipboard-data me-1"></i>SOFA & q-SOFA
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="clinic-nutrition-tab" data-bs-toggle="tab" data-bs-target="#clinic-nutrition" type="button" role="tab">Nutrisi Klinis</button>
+            <button class="nav-link" id="clinic-nutrition-tab" data-bs-toggle="tab" data-bs-target="#clinic-nutrition" type="button" role="tab">
+                <i class="bi bi-heart-pulse me-1"></i>Nutrisi Klinis
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="agd-tab" data-bs-toggle="tab" data-bs-target="#agd" type="button" role="tab">AGD Calculator</button>
+            <button class="nav-link" id="agd-tab" data-bs-toggle="tab" data-bs-target="#agd" type="button" role="tab">
+                <i class="bi bi-activity me-1"></i>AGD Calculator
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="cpis-tab" data-bs-toggle="tab" data-bs-target="#cpis" type="button" role="tab">CPIS Calculator</button>
+            <button class="nav-link" id="cpis-tab" data-bs-toggle="tab" data-bs-target="#cpis" type="button" role="tab">
+                <i class="bi bi-lungs me-1"></i>CPIS Calculator
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="clearance-tab" data-bs-toggle="tab" data-bs-target="#clearance" type="button" role="tab">Creatinine Clearance</button>
+            <button class="nav-link" id="clearance-tab" data-bs-toggle="tab" data-bs-target="#clearance" type="button" role="tab">
+                <i class="bi bi-droplet-half me-1"></i>Creatinine Clearance
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="dosis-tab" data-bs-toggle="tab" data-bs-target="#dosis" type="button" role="tab">Dosis Obat ICU</button>
+            <button class="nav-link" id="dosis-tab" data-bs-toggle="tab" data-bs-target="#dosis" type="button" role="tab">
+                <i class="bi bi-capsule me-1"></i>Dosis Obat ICU
+            </button>
         </li>
     </ul>
 
@@ -122,11 +350,11 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label>Tinggi Badan (cm)</label>
+                            <label><i class="bi bi-ruler me-1"></i>Tinggi Badan (cm)</label>
                             <input type="number" id="tb" class="form-control" value="155">
                         </div>
                         <div class="col-md-4">
-                            <label>Jenis Kelamin</label>
+                            <label><i class="bi bi-gender-ambiguous me-1"></i>Jenis Kelamin</label>
                             <select id="gender" class="form-select">
                                 <option value="male">Laki-laki</option>
                                 <option value="female">Perempuan</option>
@@ -134,7 +362,7 @@
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button class="btn btn-primary w-100" id="btnHitung">
-                                Hitung Kebutuhan
+                                <i class="bi bi-calculator me-1"></i>Hitung Kebutuhan
                             </button>
                         </div>
                     </div>
@@ -254,12 +482,12 @@
                     <div class="row g-3">
                         <!-- Berat Badan -->
                         <div class="col-md-4">
-                            <label class="form-label">Berat Badan (kg)</label>
+                            <label class="form-label"><i class="bi bi-speedometer me-1"></i>Berat Badan (kg)</label>
                             <input type="number" id="bb" class="form-control" value="50">
                         </div>
                         <!-- Pilih Obat -->
                         <div class="col-md-4">
-                            <label class="form-label">Obat</label>
+                            <label class="form-label"><i class="bi bi-capsule me-1"></i>Obat</label>
                             <select id="obat" class="form-select">
                                 <option value="200">Noradrenalin 5 mg / 25 cc</option>
                                 <option value="1000">NTG 50 mg / 50 cc</option>
@@ -271,18 +499,18 @@
                         </div>
                         <!-- Konsentrasi -->
                         <div class="col-md-4">
-                            <label class="form-label">Konsentrasi</label>
+                            <label class="form-label"><i class="bi bi-droplet me-1"></i>Konsentrasi</label>
                             <input type="text" id="konsentrasi" class="form-control" readonly>
                             <small class="text-muted">mcg / cc</small>
                         </div>
                         <!-- Dosis -->
                         <div class="col-md-6">
-                            <label class="form-label">Dosis (mcg/kg/menit)</label>
+                            <label class="form-label"><i class="bi bi-activity me-1"></i>Dosis (mcg/kg/menit)</label>
                             <input type="number" step="0.01" id="dosis" class="form-control" value="0.1">
                         </div>
                         <!-- Hasil -->
                         <div class="col-md-6">
-                            <label class="form-label">Kecepatan Infus</label>
+                            <label class="form-label"><i class="bi bi-graph-up me-1"></i>Kecepatan Infus</label>
                             <input type="text" id="hasil" class="form-control fw-bold text-primary" readonly>
                             <small class="text-muted">cc / jam</small>
                         </div>
@@ -480,18 +708,18 @@
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
-                                <label class="form-label">Tinggi Badan (cm)</label>
+                                <label class="form-label"><i class="bi bi-ruler me-1"></i>Tinggi Badan (cm)</label>
                                 <input type="number" id="tb-clinic" class="form-control form-control-clinic" value="155">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Jenis Kelamin</label>
+                                <label class="form-label"><i class="bi bi-gender-ambiguous me-1"></i>Jenis Kelamin</label>
                                 <select id="gender-clinic" class="form-select form-control-clinic">
                                     <option value="male">Laki-laki</option>
                                     <option value="female">Perempuan</option>
                                 </select>
                             </div>
                             <button class="btn btn-primary w-100 btn-clinic" id="btnHitung-clinic">
-                                Hitung Kebutuhan Nutrisi
+                                <i class="bi bi-calculator me-1"></i>Hitung Kebutuhan Nutrisi
                             </button>
                         </div>
                     </div>
@@ -554,23 +782,23 @@
                 <div class="col-md-3">
                     <div class="card input-box p-3">
                         <h6 class="fw-bold">Input</h6>
-                        <label>pH</label>
+                        <label>pH <i class="bi bi-droplet-half"></i></label>
                         <input type="number" step="0.01" id="ph" class="form-control mb-2" value="7.45">
-                        <label>SBE</label>
+                        <label>SBE <i class="bi bi-graph-up"></i></label>
                         <input type="number" step="0.1" id="sbe" class="form-control mb-2" value="-12.4">
-                        <label>Na</label>
+                        <label>Na <i class="bi bi-droplet"></i></label>
                         <input type="number" id="na" class="form-control mb-2" value="138">
-                        <label>Cl</label>
+                        <label>Cl <i class="bi bi-droplet"></i></label>
                         <input type="number" id="cl" class="form-control mb-2" value="106">
-                        <label>Albumin</label>
+                        <label>Albumin <i class="bi bi-heart-pulse"></i></label>
                         <input type="number" step="0.01" id="alb" class="form-control mb-2" value="3.73">
-                        <label>PaO2</label>
+                        <label>PaO2 <i class="bi bi-lungs"></i></label>
                         <input type="number" id="po2" class="form-control mb-2" value="132">
-                        <label>Lac</label>
+                        <label>Lac <i class="bi bi-activity"></i></label>
                         <input type="number" id="lac" class="form-control mb-2" value="0">
-                        <label>PCO2</label>
+                        <label>PCO2 <i class="bi bi-lungs"></i></label>
                         <input type="number" id="pco2" class="form-control mb-2" value="41.1">
-                        <label>FiO2 (%)</label>
+                        <label>FiO2 (%) <i class="bi bi-droplet-half"></i></label>
                         <input type="number" id="fio2" class="form-control" value="80">
                     </div>
                 </div>
@@ -765,23 +993,23 @@
                     <form id="calcForm">
                         <div class="row g-3">
                             <div class="col-md-3">
-                                <label class="form-label">Berat Badan (kg)</label>
+                                <label class="form-label"><i class="bi bi-speedometer me-1"></i>Berat Badan (kg)</label>
                                 <input type="number" class="form-control" id="bb" required>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Tinggi Badan (cm)</label>
+                                <label class="form-label"><i class="bi bi-ruler me-1"></i>Tinggi Badan (cm)</label>
                                 <input type="number" class="form-control" id="tb" required>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Usia (tahun)</label>
+                                <label class="form-label"><i class="bi bi-calendar me-1"></i>Usia (tahun)</label>
                                 <input type="number" class="form-control" id="usia" required>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Serum Kreatinin (mg/dL)</label>
+                                <label class="form-label"><i class="bi bi-droplet me-1"></i>Serum Kreatinin (mg/dL)</label>
                                 <input type="number" step="0.01" class="form-control" id="scr" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Jenis Kelamin</label>
+                                <label class="form-label"><i class="bi bi-gender-ambiguous me-1"></i>Jenis Kelamin</label>
                                 <select class="form-select" id="gender">
                                     <option value="pria">Pria</option>
                                     <option value="wanita">Wanita</option>
@@ -790,7 +1018,7 @@
                         </div>
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">
-                                Hitung
+                                <i class="bi bi-calculator me-1"></i>Hitung
                             </button>
                         </div>
                     </form>
@@ -825,7 +1053,7 @@
             <!-- BB INPUT -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <label class="form-label fw-semibold">Berat Badan (kg)</label>
+                    <label class="form-label fw-semibold"><i class="bi bi-speedometer me-1"></i>Berat Badan (kg)</label>
                     <input type="number" id="bb" class="form-control" value="50">
                 </div>
             </div>
@@ -961,49 +1189,76 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- Register Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registration successful');
+      }, function(err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
+}
+</script>
+
 <!-- Custom JavaScript -->
 <script>
 // Nutrition Calculator
 $(document).ready(function () {
     $('#btnHitung').click(function () {
-        let tb = parseFloat($('#tb').val());
-        let gender = $('#gender').val();
+        const btn = $(this);
+        btn.addClass('loading').prop('disabled', true);
 
-        if (isNaN(tb) || tb <= 0) {
-            alert('Tinggi badan tidak valid');
-            return;
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
         }
 
-        let bbIdeal = 0;
-        switch (gender) {
-            case 'male':
-                if (tb > 152) {
-                    bbIdeal = (50 + 0.9 * (tb-152));
-                } else {
-                    bbIdeal = 50;
-                }
-                break;
-            case 'female':
-                if (tb > 152) {
-                    bbIdeal = (45.5 + 0.9 * (tb-152));
-                } else {
-                    bbIdeal = 45.5;
-                }
-                break;
-        }
+        setTimeout(() => {
+            let tb = parseFloat($('#tb').val());
+            let gender = $('#gender').val();
 
-        let volume = bbIdeal > 0 ? parseFloat(bbIdeal) * 30 : 0;
-        let kalori = bbIdeal > 0 ? parseFloat(bbIdeal) * 25 : 0;
-        let protein = bbIdeal * 3.93;
-        let karbo = 0.6 * (kalori - protein);
-        let lipid = 0.4 * (kalori - protein);
+            if (isNaN(tb) || tb <= 0) {
+                alert('Tinggi badan tidak valid');
+                btn.removeClass('loading').prop('disabled', false);
+                return;
+            }
 
-        $('#bbIdeal').text(bbIdeal.toFixed(1));
-        $('#volume').text(volume.toFixed(1));
-        $('#kalori').text(kalori.toFixed(1));
-        $('#karbo').text(karbo.toFixed(4));
-        $('#protein').text(protein.toFixed(3));
-        $('#lipid').text(lipid.toFixed(4));
+            let bbIdeal = 0;
+            switch (gender) {
+                case 'male':
+                    if (tb > 152) {
+                        bbIdeal = (50 + 0.9 * (tb-152));
+                    } else {
+                        bbIdeal = 50;
+                    }
+                    break;
+                case 'female':
+                    if (tb > 152) {
+                        bbIdeal = (45.5 + 0.9 * (tb-152));
+                    } else {
+                        bbIdeal = 45.5;
+                    }
+                    break;
+            }
+
+            let volume = bbIdeal > 0 ? parseFloat(bbIdeal) * 30 : 0;
+            let kalori = bbIdeal > 0 ? parseFloat(bbIdeal) * 25 : 0;
+            let protein = bbIdeal * 3.93;
+            let karbo = 0.6 * (kalori - protein);
+            let lipid = 0.4 * (kalori - protein);
+
+            $('#bbIdeal').text(bbIdeal.toFixed(1));
+            $('#volume').text(volume.toFixed(1));
+            $('#kalori').text(kalori.toFixed(1));
+            $('#karbo').text(karbo.toFixed(4));
+            $('#protein').text(protein.toFixed(3));
+            $('#lipid').text(lipid.toFixed(4));
+
+            btn.removeClass('loading').prop('disabled', false);
+        }, 500); // Simulate calculation time
     });
 
     // Infusion Calculator
@@ -1027,34 +1282,47 @@ $(document).ready(function () {
 
     // Clinical Nutrition Calculator
     $('#btnHitung-clinic').click(function () {
-        let tb = parseFloat($('#tb-clinic').val());
-        let gender = $('#gender-clinic').val();
+        const btn = $(this);
+        btn.addClass('loading').prop('disabled', true);
 
-        if (isNaN(tb) || tb <= 0) {
-            alert('Tinggi badan tidak valid');
-            return;
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
         }
 
-        let bbIdeal = 0;
-        switch (gender) {
-            case 'male':
-                bbIdeal = (50 + 0.9 * (tb - 152));
-                break;
-            case 'female':
-                bbIdeal = (45.5 + 0.9 * (tb - 152));
-                break;
-        }
+        setTimeout(() => {
+            let tb = parseFloat($('#tb-clinic').val());
+            let gender = $('#gender-clinic').val();
 
-        let volume = bbIdeal * 30;
-        let kalori = bbIdeal * 25;
-        let protein = bbIdeal * 3.93;
-        let karbo = 0.6 * (kalori - protein);
+            if (isNaN(tb) || tb <= 0) {
+                alert('Tinggi badan tidak valid');
+                btn.removeClass('loading').prop('disabled', false);
+                return;
+            }
 
-        $('#bbIdeal-clinic').text(bbIdeal.toFixed(1));
-        $('#volume-clinic').text(volume.toFixed(1));
-        $('#kalori-clinic').text(kalori.toFixed(1));
-        $('#protein-clinic').text(protein.toFixed(3));
-        $('#karbo-clinic').text(karbo.toFixed(4));
+            let bbIdeal = 0;
+            switch (gender) {
+                case 'male':
+                    bbIdeal = (50 + 0.9 * (tb - 152));
+                    break;
+                case 'female':
+                    bbIdeal = (45.5 + 0.9 * (tb - 152));
+                    break;
+            }
+
+            let volume = bbIdeal * 30;
+            let kalori = bbIdeal * 25;
+            let protein = bbIdeal * 3.93;
+            let karbo = 0.6 * (kalori - protein);
+
+            $('#bbIdeal-clinic').text(bbIdeal.toFixed(1));
+            $('#volume-clinic').text(volume.toFixed(1));
+            $('#kalori-clinic').text(kalori.toFixed(1));
+            $('#protein-clinic').text(protein.toFixed(3));
+            $('#karbo-clinic').text(karbo.toFixed(4));
+
+            btn.removeClass('loading').prop('disabled', false);
+        }, 500);
     });
 
     // AGD Calculator
@@ -1146,47 +1414,59 @@ $(document).ready(function () {
     $('#calcForm').on('submit', function (e) {
         e.preventDefault();
 
-        const bb = parseFloat($('#bb').val());
-        const tb = parseFloat($('#tb').val());
-        const usia = parseInt($('#usia').val());
-        const scr = parseFloat($('#scr').val());
-        const gender = $('#gender').val();
+        const submitBtn = $(this).find('button[type="submit"]');
+        submitBtn.addClass('loading').prop('disabled', true);
 
-        // Lean Body Weight (sesuai file)
-        let lbw = 0;
-        if (gender === 'pria') {
-            lbw = (1.1 * bb) - 128 * (bb * bb / (tb * tb));
-        } else if (gender === 'wanita') {
-            lbw = (1.1 * bb) - 148 * (bb * bb / (tb * tb));
-        }
-        console.log('LBW:' + lbw);
-        // Cockcroft–Gault
-        let crcl = 0;
-        if (gender === 'pria') {
-            crcl = ((140 - usia) * lbw)/(scr * 72);
-        } else if (gender === 'wanita') {
-            crcl = (((140 - usia) * lbw)/(scr * 72)) * 0.85;
-        }
-        console.log('CrCl:' + crcl);
-        crcl = crcl.toFixed(4);
-
-        // Rekomendasi dosis sederhana (contoh klinis)
-        let dose;
-        if (crcl > 50) {
-            dose = '1 g setiap 8 jam';
-        } else if (crcl > 25 && crcl < 50) {
-            dose = '1 gr per 12 jam';
-        } else if (crcl > 9 && crcl < 25) {
-            dose = '500 mg per 12 jam';
-        } else {
-            dose = '500 mg persetiap 24 jam';
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(100);
         }
 
-        $('#lbw').text(lbw.toFixed(2) + ' kg');
-        $('#crcl').text(crcl + ' mL/menit');
-        $('#dose').text(dose);
+        setTimeout(() => {
+            const bb = parseFloat($('#bb').val());
+            const tb = parseFloat($('#tb').val());
+            const usia = parseInt($('#usia').val());
+            const scr = parseFloat($('#scr').val());
+            const gender = $('#gender').val();
 
-        $('#result').removeClass('d-none');
+            // Lean Body Weight (sesuai file)
+            let lbw = 0;
+            if (gender === 'pria') {
+                lbw = (1.1 * bb) - 128 * (bb * bb / (tb * tb));
+            } else if (gender === 'wanita') {
+                lbw = (1.1 * bb) - 148 * (bb * bb / (tb * tb));
+            }
+            console.log('LBW:' + lbw);
+            // Cockcroft–Gault
+            let crcl = 0;
+            if (gender === 'pria') {
+                crcl = ((140 - usia) * lbw)/(scr * 72);
+            } else if (gender === 'wanita') {
+                crcl = (((140 - usia) * lbw)/(scr * 72)) * 0.85;
+            }
+            console.log('CrCl:' + crcl);
+            crcl = crcl.toFixed(4);
+
+            // Rekomendasi dosis sederhana (contoh klinis)
+            let dose;
+            if (crcl > 50) {
+                dose = '1 g setiap 8 jam';
+            } else if (crcl > 25 && crcl < 50) {
+                dose = '1 gr per 12 jam';
+            } else if (crcl > 9 && crcl < 25) {
+                dose = '500 mg per 12 jam';
+            } else {
+                dose = '500 mg persetiap 24 jam';
+            }
+
+            $('#lbw').text(lbw.toFixed(2) + ' kg');
+            $('#crcl').text(crcl + ' mL/menit');
+            $('#dose').text(dose);
+
+            $('#result').removeClass('d-none');
+
+            submitBtn.removeClass('loading').prop('disabled', false);
+        }, 1000); // Longer delay for complex calculation
     });
 
     // ICU Drug Doses Calculator
@@ -1226,14 +1506,12 @@ $(document).ready(function () {
     $('#bb').on('input', updateDose);
     updateDose();
 
-    // SOFA Calculator
-    function calculatePF() {
-        let po2 = parseFloat($('#po2').val());
-        let fio2 = parseFloat($('#fio2').val());
-
-        if (!po2 || !fio2) return null;
-        return Math.round(po2 / (fio2 / 100));
-    }
+    // Add haptic feedback to tab clicks
+    $('.nav-tabs .nav-link').on('click', function() {
+        if (navigator.vibrate) {
+            navigator.vibrate(30);
+        }
+    });
 
     function calculateSOFA() {
         let score = 0;
