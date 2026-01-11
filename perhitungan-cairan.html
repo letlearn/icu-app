@@ -8,30 +8,378 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
         body {
             background: #f4f6f8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
         }
 
+        .container-fluid {
+            padding: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .container-fluid {
+                padding: 20px;
+            }
+        }
+
+        h4 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 767px) {
+            h4 {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Mobile-friendly tabs */
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 8px 8px 0 0;
+            padding: 12px 16px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: #6c757d;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 767px) {
+            .nav-tabs .nav-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+                margin-right: 2px;
+                margin-bottom: 2px;
+            }
+        }
+
+        .nav-tabs .nav-link.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .nav-tabs .nav-link:hover:not(.active) {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* Card improvements */
         .card {
             margin-top: 15px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: white;
         }
 
-        .result-box {
-            background: #eef3f7;
+        @media (max-width: 767px) {
+            .card {
+                margin-top: 10px;
+                border-radius: 10px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            }
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        @media (max-width: 767px) {
+            .card-body {
+                padding: 15px;
+            }
+        }
+
+        /* Form improvements */
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        @media (max-width: 767px) {
+            .form-control {
+                padding: 12px 14px;
+                font-size: 1rem; /* Prevent zoom on iOS */
+                border-radius: 10px;
+            }
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 1rem;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        @media (max-width: 767px) {
+            .form-select {
+                padding: 12px 14px;
+                font-size: 1rem;
+                padding-right: 45px;
+                background-position: right 14px center;
+            }
+        }
+
+        /* Button improvements */
+        .btn {
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        @media (max-width: 767px) {
+            .btn {
+                padding: 14px 20px;
+                font-size: 1rem;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            box-shadow: 0 2px 4px rgba(0,123,255,0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+        }
+
+        /* Reference box improvements */
+        .ref-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 8px;
+            border-left: 4px solid #6c757d;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
+        @media (max-width: 767px) {
+            .ref-box {
+                padding: 12px;
+                font-size: 0.85rem;
+                margin-top: 12px;
+            }
+        }
+
+        /* Mobile form wrapper */
+        .mobile-form {
+            margin-bottom: 0;
+        }
+
+        /* Tab wrapper for better mobile scrolling */
+        .nav-tabs-wrapper {
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            flex-wrap: nowrap;
+            min-width: max-content;
+        }
+
+        @media (min-width: 768px) {
+            .nav-tabs-wrapper {
+                overflow-x: visible;
+            }
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Ensure proper touch targets */
+        .nav-link {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Better card spacing on mobile */
+        @media (max-width: 767px) {
+            .card-body {
+                padding: 15px 12px;
+            }
+        }
+
+        /* Loading animation for buttons */
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Better focus states for accessibility */
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        @media (max-width: 767px) {
+            .result-box {
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                margin-top: 15px;
+            }
+        }
+
+        /* Reference box improvements */
         .ref-box {
             font-size: 0.85rem;
-            color: #555;
+            color: #6c757d;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #dee2e6;
         }
 
+        @media (max-width: 767px) {
+            .ref-box {
+                font-size: 0.8rem;
+                padding: 12px;
+                margin-top: 12px;
+            }
+        }
+
+        /* Warning styling */
         .warning {
-            color: #b00020;
+            color: #dc3545;
             font-weight: 600;
+            background: rgba(220, 53, 69, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        /* Row and column improvements */
+        .row {
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 767px) {
+            .row {
+                margin-bottom: 10px;
+            }
+
+            .col-md-2 {
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Input width improvements for mobile */
+        .w-25 {
+            width: 100% !important;
+            max-width: 300px;
+        }
+
+        @media (max-width: 767px) {
+            .w-25 {
+                max-width: none;
+            }
+        }
+
+        /* Tab content spacing */
+        .tab-content {
+            margin-top: 10px;
+        }
+
+        /* Card header improvements */
+        h6 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 767px) {
+            h6 {
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+            }
+
+            .form-control,
+            .form-select {
+                min-height: 44px;
+            }
+
+            .nav-tabs .nav-link {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        /* Loading animation for buttons */
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Better focus states for accessibility */
+        .form-control:focus,
+        .form-select:focus,
+        .btn:focus {
+            outline: none;
+        }
+
+        /* Smooth scrolling for mobile */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -39,72 +387,101 @@
 <body>
 
     <div class="container-fluid p-3">
-        <h4 class="mb-3">ICU Fluid & Electrolyte Calculator</h4>
+        <h4 class="mb-3">💧 ICU Fluid & Electrolyte Calculator</h4>
 
-        <!-- Tabs -->
-        <ul class="nav nav-tabs" id="calcTabs">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
-                    data-bs-target="#hyperna">Hipernatremia</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#hypona">Hiponatremia</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#kalium">Kalium</button>
-            </li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#kalsium">Kalsium</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#fosfat">Fosfat</button>
-            </li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                    data-bs-target="#magnesium">Magnesium</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#aki">AKI
-                    (KDIGO)</button></li>
-        </ul>
+        <!-- Mobile-friendly Tabs -->
+        <div class="nav-tabs-wrapper">
+            <ul class="nav nav-tabs" id="calcTabs">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#hyperna">
+                        🔼 Hipernatremia
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#hypona">
+                        🔽 Hiponatremia
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#kalium">
+                        🧪 Kalium
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#kalsium">
+                        🦴 Kalsium
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#fosfat">
+                        🧬 Fosfat
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#magnesium">
+                        ⚡ Magnesium
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#aki">
+                        🩺 AKI (KDIGO)
+                    </button>
+                </li>
+            </ul>
+        </div>
 
         <div class="tab-content">
 
             <!-- HIPERNATREMIA -->
             <div class="tab-pane fade show active" id="hyperna">
                 <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">🔼 Hipernatremia – Defisit Air</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>Hipernatremia – Defisit Air</h6>
-
-                        <div class="row g-2">
-                            <div class="col-md-2">
-                                <label>BB (kg)</label>
-                                <input type="number" id="hn_bb" class="form-control">
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label fw-bold">Berat Badan (kg)</label>
+                                    <input type="number" class="form-control form-control-lg" id="hn_bb" placeholder="70" step="0.1">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label fw-bold">Jenis Kelamin</label>
+                                    <select id="hn_gender" class="form-select form-select-lg">
+                                        <option value="0.6">Laki-laki</option>
+                                        <option value="0.5">Perempuan</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label fw-bold">Na Terukur (mEq/L)</label>
+                                    <input type="number" class="form-control form-control-lg" id="hn_na" placeholder="150" step="0.1">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label fw-bold">Target Na (mEq/L)</label>
+                                    <input type="number" class="form-control form-control-lg" id="hn_target" value="140" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Onset</label>
+                                    <select id="hn_onset" class="form-select form-select-lg">
+                                        <option value="0.5">Kronis</option>
+                                        <option value="1">Akut</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary btn-lg w-100" onclick="calcHyperNa()">
+                                        <i class="fas fa-calculator"></i> Hitung Defisit Air
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <label>Jenis Kelamin</label>
-                                <select id="hn_gender" class="form-control">
-                                    <option value="0.6">Laki-laki</option>
-                                    <option value="0.5">Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label>Na Terukur</label>
-                                <input type="number" id="hn_na" class="form-control">
-                            </div>
-                            <div class="col-md-2">
-                                <label>Target Na</label>
-                                <input type="number" id="hn_target" class="form-control" value="140">
-                            </div>
-                            <div class="col-md-2">
-                                <label>Onset</label>
-                                <select id="hn_onset" class="form-control">
-                                    <option value="0.5">Kronis</option>
-                                    <option value="1">Akut</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary mt-3" onclick="calcHyperNa()">Hitung</button>
+                        </form>
 
                         <div class="result-box mt-3" id="hn_result"></div>
 
-                        <div class="ref-box mt-2">
-                            <b>Referensi:</b><br>
-                            TBW = BB × (0,6 pria | 0,5 wanita)<br>
+                        <div class="ref-box mt-3">
+                            <strong>Referensi:</strong><br>
+                            TBW = BB × (0.6 pria | 0.5 wanita)<br>
                             Defisit air = TBW × [(Na/140) − 1]<br>
-                            Kecepatan koreksi: akut 1 mEq/L/jam, kronis ≤0,5 mEq/L/jam
+                            Kecepatan koreksi: akut 1 mEq/L/jam, kronis ≤0.5 mEq/L/jam
                         </div>
                     </div>
                 </div>
@@ -113,28 +490,39 @@
             <!-- HIPONATREMIA -->
             <div class="tab-pane fade" id="hypona">
                 <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">🔽 Hiponatremia – Laju Koreksi</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>Hiponatremia – Laju Koreksi</h6>
-
-                        <label>Na Plasma (mEq/L)</label>
-                        <input type="number" id="hypo_na" class="form-control w-25">
-
-                        <label class="mt-2">Derajat Gejala</label>
-                        <select id="hypo_symptom" class="form-control w-25">
-                            <option value="0.5">Ringan</option>
-                            <option value="1">Sedang</option>
-                            <option value="1.5">Berat</option>
-                        </select>
-
-                        <button class="btn btn-primary mt-3" onclick="calcHypoNa()">Evaluasi</button>
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Na Plasma (mEq/L)</label>
+                                    <input type="number" class="form-control form-control-lg" id="hypo_na" placeholder="130" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Derajat Gejala</label>
+                                    <select id="hypo_symptom" class="form-select form-select-lg">
+                                        <option value="0.5">Ringan</option>
+                                        <option value="1">Sedang</option>
+                                        <option value="1.5">Berat</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-info btn-lg w-100" onclick="calcHypoNa()">
+                                        <i class="fas fa-chart-line"></i> Evaluasi Koreksi
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="result-box mt-3" id="hypo_result"></div>
 
-                        <div class="ref-box mt-2">
-                            <b>Referensi:</b><br>
-                            Ringan ≤0,5 mEq/L/jam<br>
-                            Sedang ≤1,0 mEq/L/jam<br>
-                            Berat ≤1,5 mEq/L/jam<br>
+                        <div class="ref-box mt-3">
+                            <strong>Referensi:</strong><br>
+                            Ringan ≤0.5 mEq/L/jam<br>
+                            Sedang ≤1.0 mEq/L/jam<br>
+                            Berat ≤1.5 mEq/L/jam<br>
                             Na &lt;120 mEq/L → risiko edema serebri
                         </div>
                     </div>
@@ -144,31 +532,37 @@
             <!-- KALIUM -->
             <div class="tab-pane fade" id="kalium">
                 <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">🧪 Hipokalemia – Estimasi Defisit</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>Hipokalemia – Estimasi Defisit</h6>
-
-                        <div class="row g-2">
-                            <div class="col-md-2">
-                                <label>BB (kg)</label>
-                                <input type="number" id="k_bb" class="form-control">
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label fw-bold">Berat Badan (kg)</label>
+                                    <input type="number" class="form-control form-control-lg" id="k_bb" placeholder="70" step="0.1">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label fw-bold">K Saat Ini (mEq/L)</label>
+                                    <input type="number" class="form-control form-control-lg" id="k_now" placeholder="3.0" step="0.1">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label fw-bold">Target K (mEq/L)</label>
+                                    <input type="number" class="form-control form-control-lg" id="k_target" value="4" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-warning btn-lg w-100" onclick="calcK()">
+                                        <i class="fas fa-calculator"></i> Hitung Defisit Kalium
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <label>K Saat Ini</label>
-                                <input type="number" id="k_now" class="form-control">
-                            </div>
-                            <div class="col-md-2">
-                                <label>Target K</label>
-                                <input type="number" id="k_target" class="form-control" value="4">
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary mt-3" onclick="calcK()">Hitung</button>
+                        </form>
 
                         <div class="result-box mt-3" id="k_result"></div>
 
-                        <div class="ref-box mt-2">
-                            <b>Referensi:</b><br>
-                            Defisit K ≈ 0,3 × BB × ΔK<br>
+                        <div class="ref-box mt-3">
+                            <strong>Referensi:</strong><br>
+                            Defisit K ≈ 0.3 × BB × ΔK<br>
                             Peripheral IV ≤8 mEq/jam<br>
                             Central line 10–20 mEq/jam + EKG
                         </div>
@@ -179,16 +573,29 @@
             <!-- KALSIUM -->
             <div class="tab-pane fade" id="kalsium">
                 <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">🦴 Kalsium Plasma</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>Kalsium Plasma</h6>
-
-                        <input type="number" id="ca_val" class="form-control w-25" placeholder="mg/dL">
-                        <button class="btn btn-primary mt-3" onclick="calcCa()">Evaluasi</button>
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Kalsium Plasma (mg/dL)</label>
+                                    <input type="number" class="form-control form-control-lg" id="ca_val" placeholder="8.5" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-success btn-lg w-100" onclick="calcCa()">
+                                        <i class="fas fa-stethoscope"></i> Evaluasi Kalsium
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="result-box mt-3" id="ca_result"></div>
 
-                        <div class="ref-box mt-2">
-                            Normal 8,5–10,5 mg/dL<br>
+                        <div class="ref-box mt-3">
+                            <strong>Referensi:</strong><br>
+                            Normal 8.5–10.5 mg/dL<br>
                             CaCl₂ 10% 3–5 mL (sentral)<br>
                             Ca Glukonat 10% 10–20 mL
                         </div>
@@ -199,16 +606,29 @@
             <!-- FOSFAT -->
             <div class="tab-pane fade" id="fosfat">
                 <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">🧬 Fosfat Plasma</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>Fosfat Plasma</h6>
-
-                        <input type="number" id="phos_val" class="form-control w-25" placeholder="mg/dL">
-                        <button class="btn btn-primary mt-3" onclick="calcPhos()">Evaluasi</button>
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Fosfat Plasma (mg/dL)</label>
+                                    <input type="number" class="form-control form-control-lg" id="phos_val" placeholder="2.5" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-secondary btn-lg w-100" onclick="calcPhos()">
+                                        <i class="fas fa-flask"></i> Evaluasi Fosfat
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="result-box mt-3" id="phos_result"></div>
 
-                        <div class="ref-box mt-2">
-                            Normal 2,5–4,5 mg/dL<br>
+                        <div class="ref-box mt-3">
+                            <strong>Referensi:</strong><br>
+                            Normal 2.5–4.5 mg/dL<br>
                             &lt;1 mg/dL → IV fosfat (ICU)
                         </div>
                     </div>
@@ -218,16 +638,29 @@
             <!-- MAGNESIUM -->
             <div class="tab-pane fade" id="magnesium">
                 <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">⚡ Magnesium Plasma</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>Magnesium Plasma</h6>
-
-                        <input type="number" id="mg_val" class="form-control w-25" placeholder="mg/dL">
-                        <button class="btn btn-primary mt-3" onclick="calcMg()">Evaluasi</button>
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Magnesium Plasma (mg/dL)</label>
+                                    <input type="number" class="form-control form-control-lg" id="mg_val" placeholder="1.8" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-danger btn-lg w-100" onclick="calcMg()">
+                                        <i class="fas fa-bolt"></i> Evaluasi Magnesium
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="result-box mt-3" id="mg_result"></div>
 
-                        <div class="ref-box mt-2">
-                            Normal 1,7–2,4 mg/dL<br>
+                        <div class="ref-box mt-3">
+                            <strong>Referensi:</strong><br>
+                            Normal 1.7–2.4 mg/dL<br>
                             Kejang → MgSO₄ 1–2 g IV
                         </div>
                     </div>
@@ -237,18 +670,31 @@
             <!-- AKI -->
             <div class="tab-pane fade" id="aki">
                 <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">🩺 AKI – KDIGO Staging</h5>
+                    </div>
                     <div class="card-body">
-                        <h6>AKI – KDIGO Staging</h6>
-
-                        <input type="number" id="cr_ratio" class="form-control w-25" placeholder="Rasio Kreatinin">
-                        <button class="btn btn-primary mt-3" onclick="calcAKI()">Evaluasi</button>
+                        <form class="mobile-form">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Rasio Kreatinin (x baseline)</label>
+                                    <input type="number" class="form-control form-control-lg" id="cr_ratio" placeholder="1.5" step="0.1">
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-dark btn-lg w-100" onclick="calcAKI()">
+                                        <i class="fas fa-search"></i> Evaluasi AKI Stage
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
                         <div class="result-box mt-3" id="aki_result"></div>
 
-                        <div class="ref-box mt-2">
-                            Stage 1: 1,5–1,9×<br>
-                            Stage 2: 2–2,9×<br>
-                            Stage 3: ≥3× atau Cr ≥4 mg/dL
+                        <div class="ref-box mt-3">
+                            <strong>KDIGO Criteria:</strong><br>
+                            Stage 1: 1.5–1.9× baseline<br>
+                            Stage 2: 2.0–2.9× baseline<br>
+                            Stage 3: ≥3.0× baseline atau Cr ≥4 mg/dL
                         </div>
                     </div>
                 </div>
