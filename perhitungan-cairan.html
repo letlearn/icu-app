@@ -468,7 +468,7 @@
                                     </select>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary btn-lg w-100" onclick="calcHyperNa()">
+                                    <button type="button" class="btn btn-primary btn-lg w-100" onclick="calcHyperNa()">
                                         <i class="fas fa-calculator"></i> Hitung Defisit Air
                                     </button>
                                 </div>
@@ -509,7 +509,7 @@
                                     </select>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-info btn-lg w-100" onclick="calcHypoNa()">
+                                    <button type="button" class="btn btn-info btn-lg w-100" onclick="calcHypoNa()">
                                         <i class="fas fa-chart-line"></i> Evaluasi Koreksi
                                     </button>
                                 </div>
@@ -551,7 +551,7 @@
                                     <input type="number" class="form-control form-control-lg" id="k_target" value="4" step="0.1">
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-warning btn-lg w-100" onclick="calcK()">
+                                    <button type="button" class="btn btn-warning btn-lg w-100" onclick="calcK()">
                                         <i class="fas fa-calculator"></i> Hitung Defisit Kalium
                                     </button>
                                 </div>
@@ -617,7 +617,7 @@
                                     <input type="number" class="form-control form-control-lg" id="phos_val" placeholder="2.5" step="0.1">
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-secondary btn-lg w-100" onclick="calcPhos()">
+                                    <button type="button" class="btn btn-secondary btn-lg w-100" onclick="calcPhos()">
                                         <i class="fas fa-flask"></i> Evaluasi Fosfat
                                     </button>
                                 </div>
@@ -649,7 +649,7 @@
                                     <input type="number" class="form-control form-control-lg" id="mg_val" placeholder="1.8" step="0.1">
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-danger btn-lg w-100" onclick="calcMg()">
+                                    <button type="button" class="btn btn-danger btn-lg w-100" onclick="calcMg()">
                                         <i class="fas fa-bolt"></i> Evaluasi Magnesium
                                     </button>
                                 </div>
@@ -681,7 +681,7 @@
                                     <input type="number" class="form-control form-control-lg" id="cr_ratio" placeholder="1.5" step="0.1">
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-dark btn-lg w-100" onclick="calcAKI()">
+                                    <button type="button" class="btn btn-dark btn-lg w-100" onclick="calcAKI()">
                                         <i class="fas fa-search"></i> Evaluasi AKI Stage
                                     </button>
                                 </div>
@@ -709,6 +709,7 @@
 
     <script>
         function calcHyperNa() {
+            event.preventDefault();
             let bb = +hn_bb.value;
             let tbw = bb * +hn_gender.value;
             let na = +hn_na.value;
@@ -727,34 +728,40 @@
         }
 
         function calcHypoNa() {
+            event.preventDefault();
             hypo_result.innerHTML =
                 `Kecepatan koreksi maksimal: ${hypo_symptom.value} mEq/L/jam` +
                 (hypo_na.value < 120 ? "<br><span class='warning'>Risiko edema serebri</span>" : "");
         }
 
         function calcK() {
+            event.preventDefault();
             let deficit = 0.3 * k_bb.value * (k_target.value - k_now.value);
             k_result.innerHTML = `Estimasi defisit K: ${deficit.toFixed(1)} mEq`;
         }
 
         function calcCa() {
+            event.preventDefault();
             let v = ca_val.value;
             ca_result.innerHTML = v < 8.5 ? "Hipokalsemia" : v > 10.5 ? "Hiperkalsemia" : "Normal";
         }
 
         function calcPhos() {
+            event.preventDefault();
             let v = phos_val.value;
             phos_result.innerHTML = v < 1 ? "Hipofosfatemia berat (pertimbangkan IV)" :
                 v < 2.5 ? "Hipofosfatemia" : v > 4.5 ? "Hiperfosfatemia" : "Normal";
         }
 
         function calcMg() {
+            event.preventDefault();
             let v = mg_val.value;
             mg_result.innerHTML = v < 1.7 ? "Hipomagnesemia" :
                 v > 2.4 ? "Hipermagnesemia" : "Normal";
         }
 
         function calcAKI() {
+            event.preventDefault();
             let r = cr_ratio.value;
             aki_result.innerHTML = r >= 3 ? "KDIGO Stage 3" : r >= 2 ? "Stage 2" :
                 r >= 1.5 ? "Stage 1" : "Tidak memenuhi AKI";
